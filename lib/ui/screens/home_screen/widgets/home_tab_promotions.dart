@@ -95,99 +95,104 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
   Widget _buildPromoItem() {
     return Stack(
       children: [
-        Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          padding: EdgeInsets.symmetric(vertical: 15),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                offset: Offset(0, 1),
-                color: Colors.black12,
-                blurRadius: 1,
-              )
-            ],
-          ),
-          height: 130,
-          child: Row(
-            children: [
-              Container(
-                width: 130,
-                child: CustomNetworkImage(
-                  fit: BoxFit.contain,
-                  imageUrl:
-                      'https://upload.wikimedia.org/wikipedia/vi/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1024px-Starbucks_Corporation_Logo_2011.svg.png',
+        GestureDetector(
+          onTap: () {
+            BottomSheetUtils.showPromotionDetailBS();
+          },
+          child: Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            padding: EdgeInsets.symmetric(vertical: 15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(0, 1),
+                  color: Colors.black12,
+                  blurRadius: 1,
+                )
+              ],
+            ),
+            height: 130,
+            child: Row(
+              children: [
+                Container(
+                  width: 130,
+                  child: CustomNetworkImage(
+                    fit: BoxFit.contain,
+                    imageUrl:
+                        'https://upload.wikimedia.org/wikipedia/vi/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1024px-Starbucks_Corporation_Logo_2011.svg.png',
+                  ),
                 ),
-              ),
-              SizedBox(width: 5),
-              Expanded(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            'Starbucks Cashback',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17,
-                              color: Colors.grey[850],
+                SizedBox(width: 5),
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              'Starbucks Cashback',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17,
+                                color: Colors.grey[850],
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 2),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: '10% Cashback',
-                                  style: TextStyle(
-                                    color: Colors.green,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
+                            SizedBox(height: 2),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: '10% Cashback',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                                TextSpan(
-                                  text: ' at Starbucks',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontSize: 12,
-                                    fontStyle: FontStyle.italic,
+                                  TextSpan(
+                                    text: ' at Starbucks',
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      // Category
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            'Drinks',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
+                          ],
+                        ),
+                        // Category
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              'Drinks',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Positioned(

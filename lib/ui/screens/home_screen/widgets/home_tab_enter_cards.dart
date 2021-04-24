@@ -27,30 +27,51 @@ class _HomeTabEnterCardsState extends State<HomeTabEnterCards> {
   Widget build(BuildContext context) {
     return Consumer<ICCardsViewmodel>(
       builder: (context, __, ___) {
-        return ListView(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ..._viewmodel.linkedCardList.map((linkedCard) {
-              return Slidable(
-                actionPane: SlidableDrawerActionPane(),
-                child: CreditCardWidget(
-                  cardNumber: linkedCard.cardNumber,
-                  expiryDate: linkedCard.cardExpiryDate,
-                  cardHolderName: linkedCard.cardHolderName,
-                  cvvCode: linkedCard.cardCVV,
-                  showBackView: false,
+            // Page title
+            Container(
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+              child: Text(
+                'Your Cards',
+                style: TextStyle(
+                  color: Colors.grey[800],
+                  fontWeight: FontWeight.w500,
+                  fontSize: 24,
                 ),
-                secondaryActions: <Widget>[
-                  IconSlideAction(
-                    caption: 'Delete',
-                    color: Colors.red,
-                    icon: Icons.delete,
-                    onTap: () {},
-                  ),
+              ),
+            ),
+            // Cards section
+            Expanded(
+              child: ListView(
+                children: [
+                  ..._viewmodel.linkedCardList.map((linkedCard) {
+                    return Slidable(
+                      actionPane: SlidableDrawerActionPane(),
+                      child: CreditCardWidget(
+                        cardNumber: linkedCard.cardNumber,
+                        expiryDate: linkedCard.cardExpiryDate,
+                        cardHolderName: linkedCard.cardHolderName,
+                        cvvCode: linkedCard.cardCVV,
+                        showBackView: false,
+                        cardBgColor: Theme.of(context).primaryColorDark,
+                      ),
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () {},
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                  SizedBox(height: 15),
+                  _buildAddButton(),
                 ],
-              );
-            }).toList(),
-            SizedBox(height: 15),
-            _buildAddButton(),
+              ),
+            ),
           ],
         );
       },
@@ -62,7 +83,7 @@ class _HomeTabEnterCardsState extends State<HomeTabEnterCards> {
       margin: EdgeInsets.symmetric(horizontal: 15),
       child: DottedBorder(
         color: Theme.of(context).primaryColor,
-        dashPattern: [4, 4],
+        dashPattern: [6, 6],
         strokeWidth: 2,
         padding: EdgeInsets.zero,
         borderType: BorderType.RRect,
@@ -73,7 +94,7 @@ class _HomeTabEnterCardsState extends State<HomeTabEnterCards> {
             BottomSheetUtils.showAddCreditCardBS();
           },
           child: Ink(
-            height: 150,
+            height: 185,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

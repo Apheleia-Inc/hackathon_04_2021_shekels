@@ -46,6 +46,7 @@ class _AddCreditCardBtmSheetState extends State<AddCreditCardBtmSheet> {
               showBackView: isCvvFocused,
               obscureCardNumber: false,
               obscureCardCvv: false,
+              cardBgColor: Theme.of(context).primaryColorDark,
             ),
             Expanded(
               child: SingleChildScrollView(
