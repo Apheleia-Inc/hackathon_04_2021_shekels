@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:get/get.dart';
-import 'package:hackathon_04_2021_shekels/ui/commons/app_bottom_sheet.dart';
+import 'package:hackathon_04_2021_shekels/core/dtos/promotion_dto.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/app_button.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/custom_network_image.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PromotionDetailBtmSheet extends StatefulWidget {
-  PromotionDetailBtmSheet({Key key}) : super(key: key);
+  final PromotionDto promotion;
+
+  PromotionDetailBtmSheet({
+    Key key,
+    @required this.promotion,
+  }) : super(key: key);
 
   @override
   _PromotionDetailBtmSheetState createState() =>
@@ -42,10 +49,10 @@ class _PromotionDetailBtmSheetState extends State<PromotionDetailBtmSheet> {
                     child: Container(
                       width: 150,
                       height: 150,
+                      color: Colors.white,
                       child: CustomNetworkImage(
                         fit: BoxFit.contain,
-                        imageUrl:
-                            'https://upload.wikimedia.org/wikipedia/vi/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1024px-Starbucks_Corporation_Logo_2011.svg.png',
+                        imageUrl: widget.promotion.store.imageUrl,
                       ),
                     ),
                   ),
@@ -56,7 +63,7 @@ class _PromotionDetailBtmSheetState extends State<PromotionDetailBtmSheet> {
                     child: Column(
                       children: [
                         Text(
-                          'Starbucks Cashback',
+                          widget.promotion.name,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.grey[800],
@@ -66,7 +73,7 @@ class _PromotionDetailBtmSheetState extends State<PromotionDetailBtmSheet> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          '10% Cashback',
+                          widget.promotion.description,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.green,
@@ -78,10 +85,12 @@ class _PromotionDetailBtmSheetState extends State<PromotionDetailBtmSheet> {
                         _buildSection(
                           'From card',
                           CreditCardWidget(
-                            cardNumber: '4242 4242 4242 4242',
-                            expiryDate: '12/23',
-                            cardHolderName: 'Thang Nguyen',
-                            cvvCode: '123',
+                            cardNumber: widget.promotion.fromCard.cardNumber,
+                            expiryDate:
+                                widget.promotion.fromCard.cardExpiryDate,
+                            cardHolderName:
+                                widget.promotion.fromCard.cardHolderName,
+                            cvvCode: widget.promotion.fromCard.cardCVV,
                             showBackView: false,
                             cardBgColor: Theme.of(context).primaryColorDark,
                           ),
@@ -89,7 +98,9 @@ class _PromotionDetailBtmSheetState extends State<PromotionDetailBtmSheet> {
                         SizedBox(height: 10),
                         _buildSection(
                           'Promotion Info',
-                          _PromoInfoSection(),
+                          _PromoInfoSection(
+                            promotion: widget.promotion,
+                          ),
                         ),
                       ],
                     ),
@@ -162,8 +173,11 @@ class _PromotionDetailBtmSheetState extends State<PromotionDetailBtmSheet> {
 }
 
 class _PromoInfoSection extends StatefulWidget {
+  final PromotionDto promotion;
+
   const _PromoInfoSection({
     Key key,
+    @required this.promotion,
   }) : super(key: key);
 
   @override
@@ -184,11 +198,14 @@ class __PromoInfoSectionState extends State<_PromoInfoSection> {
           Row(
             children: [
               Expanded(
-                child: _buildInfoItem('Expired At', 'Apr 1st 21'),
+                child: _buildInfoItem(
+                  'Expired At',
+                  DateFormat.yMMMd().format(widget.promotion.expirationDate),
+                ),
               ),
               SizedBox(width: 20),
               Expanded(
-                child: _buildInfoItem('Category', 'Drinks'),
+                child: _buildInfoItem('Category', widget.promotion.category),
               ),
             ],
           ),
@@ -196,11 +213,17 @@ class __PromoInfoSectionState extends State<_PromoInfoSection> {
           Row(
             children: [
               Expanded(
-                child: _buildInfoItem('Store', 'Starbucks'),
+                child: _buildInfoItem('Store', widget.promotion.store.name),
               ),
               SizedBox(width: 20),
               Expanded(
-                child: _buildInfoItem('Store URL', 'Go to Store'),
+                child: _buildInfoItem(
+                  'Store URL',
+                  'Go to Store',
+                  onTap: () {
+                    launch(widget.promotion.store.url);
+                  },
+                ),
               ),
             ],
           ),

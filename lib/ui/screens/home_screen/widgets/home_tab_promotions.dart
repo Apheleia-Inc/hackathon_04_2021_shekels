@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon_04_2021_shekels/core/dtos/promotion_dto.dart';
+import 'package:hackathon_04_2021_shekels/core/viewmodels/interfaces/ipromotions_viewmodel.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/custom_network_image.dart';
+import 'package:hackathon_04_2021_shekels/ui/commons/link_card_btn.dart';
 import 'package:hackathon_04_2021_shekels/utils/bottom_sheet_utils.dart';
+import 'package:provider/provider.dart';
 
 class HomeTabPromotions extends StatefulWidget {
   HomeTabPromotions({Key key}) : super(key: key);
@@ -10,6 +14,15 @@ class HomeTabPromotions extends StatefulWidget {
 }
 
 class _HomeTabPromotionsState extends State<HomeTabPromotions> {
+  IPromotionsViewmodel _viewmodel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _viewmodel = context.read<IPromotionsViewmodel>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,10 +93,25 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              // itemCount: ,
-              itemBuilder: (context, index) {
-                return _buildPromoItem();
+            child: Consumer<IPromotionsViewmodel>(
+              builder: (context, __, ___) {
+                if (_viewmodel.promotionList.length <= 0) {
+                  return Column(
+                    children: [
+                      SizedBox(height: 10),
+                      LinkCardBtn(),
+                    ],
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: _viewmodel.promotionList.length,
+                  itemBuilder: (context, index) {
+                    PromotionDto promo = _viewmodel.promotionList[index];
+
+                    return _buildPromoItem(promo);
+                  },
+                );
               },
             ),
           ),
@@ -92,12 +120,13 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
     );
   }
 
-  Widget _buildPromoItem() {
+  Widget _buildPromoItem(PromotionDto promotion) {
     return Stack(
+      key: ValueKey(promotion.id),
       children: [
         GestureDetector(
           onTap: () {
-            BottomSheetUtils.showPromotionDetailBS();
+            BottomSheetUtils.showPromotionDetailBS(promotion);
           },
           child: Container(
             margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -119,8 +148,7 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
                   width: 130,
                   child: CustomNetworkImage(
                     fit: BoxFit.contain,
-                    imageUrl:
-                        'https://upload.wikimedia.org/wikipedia/vi/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1024px-Starbucks_Corporation_Logo_2011.svg.png',
+                    imageUrl: promotion.store.imageUrl,
                   ),
                 ),
                 SizedBox(width: 5),
@@ -134,7 +162,7 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              'Starbucks Cashback',
+                              promotion.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -148,7 +176,7 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: '10% Cashback',
+                                    text: promotion.description,
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: 15,
@@ -156,7 +184,7 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: ' at Starbucks',
+                                    text: ' at ${promotion.store.name}',
                                     style: TextStyle(
                                       color: Colors.grey[700],
                                       fontSize: 12,
@@ -179,7 +207,7 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              'Drinks',
+                              promotion.category,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,

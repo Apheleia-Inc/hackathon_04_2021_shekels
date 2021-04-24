@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hackathon_04_2021_shekels/core/dtos/promotion_dto.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/add_credit_card_btm_sheet.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/filter_promotions_btm_sheet.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/promotion_detail_btm_sheet.dart';
@@ -18,9 +19,11 @@ class BottomSheetUtils {
     );
   }
 
-  static Future<void> showPromotionDetailBS() async {
+  static Future<void> showPromotionDetailBS(PromotionDto promotion) async {
     await Get.bottomSheet(
-      PromotionDetailBtmSheet(),
+      PromotionDetailBtmSheet(
+        promotion: promotion,
+      ),
       isScrollControlled: true,
     );
   }

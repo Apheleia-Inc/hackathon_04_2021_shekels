@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
+import 'package:hackathon_04_2021_shekels/core/dtos/linked_card_dto.dart';
+import 'package:hackathon_04_2021_shekels/core/dtos/promotion_dto.dart';
 import 'package:hackathon_04_2021_shekels/core/viewmodels/interfaces/iccards_viewmodel.dart';
+import 'package:hackathon_04_2021_shekels/core/viewmodels/interfaces/ipromotions_viewmodel.dart';
+import 'package:hackathon_04_2021_shekels/global/mock_data.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/app_bottom_sheet.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/keyboard_unfocus_wrapper.dart';
+import 'package:hackathon_04_2021_shekels/utils/credit_card_utils.dart';
 import 'package:provider/provider.dart';
 
 class AddCreditCardBtmSheet extends StatefulWidget {
@@ -15,6 +20,7 @@ class AddCreditCardBtmSheet extends StatefulWidget {
 
 class _AddCreditCardBtmSheetState extends State<AddCreditCardBtmSheet> {
   ICCardsViewmodel _ccardsViewmodel;
+  IPromotionsViewmodel _promotionsViewmodel;
 
   String cardNumber = '';
   String expiryDate = '';
@@ -28,6 +34,27 @@ class _AddCreditCardBtmSheetState extends State<AddCreditCardBtmSheet> {
     super.initState();
 
     _ccardsViewmodel = context.read<ICCardsViewmodel>();
+    _promotionsViewmodel = context.read<IPromotionsViewmodel>();
+  }
+
+  Future<void> _addCard() async {
+    LinkedCardDto addedCard = await _ccardsViewmodel.addCard(
+      cardNumber: cardNumber,
+      cardExpiryDate: expiryDate,
+      cardHolderName: cardHolderName,
+      cardCVV: cvvCode,
+    );
+    CardType cardType = CreditCardUtils.detectCCType(cardNumber);
+
+    if (cardType == CardType.mastercard) {
+      List<PromotionDto> promotions = MockData.getMasterCardPromos(addedCard);
+      _promotionsViewmodel.addPromotions(promotionList: promotions);
+    } else if (cardType == CardType.visa) {
+      List<PromotionDto> promotions = MockData.getVisaPromos(addedCard);
+      _promotionsViewmodel.addPromotions(promotionList: promotions);
+    }
+
+    Get.back();
   }
 
   @override
@@ -100,13 +127,7 @@ class _AddCreditCardBtmSheetState extends State<AddCreditCardBtmSheet> {
           AppBottomSheetAction(
             onPressed: () async {
               if (formKey.currentState.validate()) {
-                await _ccardsViewmodel.addCard(
-                  cardNumber: cardNumber,
-                  cardExpiryDate: expiryDate,
-                  cardHolderName: cardHolderName,
-                  cardCVV: cvvCode,
-                );
-                Get.back();
+                await _addCard();
               } else {
                 print('invalid!');
               }

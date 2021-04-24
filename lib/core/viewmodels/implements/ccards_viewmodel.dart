@@ -13,30 +13,45 @@ class CCardsViewmodel extends ChangeNotifier implements ICCardsViewmodel {
   List<LinkedCardDto> get linkedCardList => _linkedCardList;
 
   @override
-  Future<void> addCard({
+  Future<LinkedCardDto> addCard({
     @required String cardNumber,
     @required String cardExpiryDate,
     @required String cardHolderName,
     @required String cardCVV,
   }) async {
-    CardType cardType = CreditCardUtils.detectCCType(cardNumber);
     await LoadingDialogUtils.showLoading();
     await Future.delayed(
       Duration(
         milliseconds: 2000,
       ),
     );
-    _linkedCardList.add(
-      LinkedCardDto(
-        id: Uuid().v4(),
-        linkedDate: DateTime.now(),
-        cardType: cardType,
-        cardNumber: cardNumber,
-        cardExpiryDate: cardExpiryDate,
-        cardHolderName: cardHolderName,
-        cardCVV: cardCVV,
+
+    CardType cardType = CreditCardUtils.detectCCType(cardNumber);
+    LinkedCardDto cardToAdd = LinkedCardDto(
+      id: Uuid().v4(),
+      linkedDate: DateTime.now(),
+      cardType: cardType,
+      cardNumber: cardNumber,
+      cardExpiryDate: cardExpiryDate,
+      cardHolderName: cardHolderName,
+      cardCVV: cardCVV,
+    );
+
+    _linkedCardList.add(cardToAdd);
+    await LoadingDialogUtils.hideLoading();
+    notifyListeners();
+
+    return cardToAdd;
+  }
+
+  Future<void> removeCard(String cardId) async {
+    await LoadingDialogUtils.showLoading();
+    await Future.delayed(
+      Duration(
+        milliseconds: 2000,
       ),
     );
+    _linkedCardList.removeWhere((card) => card.id == cardId);
     await LoadingDialogUtils.hideLoading();
     notifyListeners();
   }
