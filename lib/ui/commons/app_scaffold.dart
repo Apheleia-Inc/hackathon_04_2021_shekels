@@ -33,16 +33,18 @@ class _AppScaffoldState extends State<AppScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: AppDrawer(),
-      appBar: AppAppBar(
-        titleText: widget.titleText,
-        leadingBtnType: widget.leadingBtnType,
-        actions: widget.appBarActions,
+    return SafeArea(
+      child: Scaffold(
+        drawer: AppDrawer(),
+        // appBar: AppAppBar(
+        //   titleText: widget.titleText,
+        //   leadingBtnType: widget.leadingBtnType,
+        //   actions: widget.appBarActions,
+        // ),
+        body: widget.body,
+        floatingActionButton: widget.floatingActionButton,
+        floatingActionButtonLocation: widget.floatingActionButtonLocation,
       ),
-      body: widget.body,
-      floatingActionButton: widget.floatingActionButton,
-      floatingActionButtonLocation: widget.floatingActionButtonLocation,
     );
   }
 }

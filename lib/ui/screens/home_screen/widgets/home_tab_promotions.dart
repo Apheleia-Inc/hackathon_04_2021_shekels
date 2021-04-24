@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon_04_2021_shekels/ui/commons/custom_network_image.dart';
+import 'package:hackathon_04_2021_shekels/utils/bottom_sheet_utils.dart';
 
 class HomeTabPromotions extends StatefulWidget {
   HomeTabPromotions({Key key}) : super(key: key);
@@ -16,6 +17,54 @@ class _HomeTabPromotionsState extends State<HomeTabPromotions> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          SizedBox(height: 15),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        prefixIcon: Icon(Icons.search),
+                        hintText: 'Store name, Promotion type, etc...',
+                        hintStyle: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Material(
+                    child: InkWell(
+                      onTap: () {
+                        BottomSheetUtils.showFilterPromotionsBS();
+                      },
+                      borderRadius: BorderRadius.circular(10),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        width: 50,
+                        height: 50,
+                        child: Icon(
+                          Icons.sort,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Container(
             padding: EdgeInsets.symmetric(
               horizontal: 15,
