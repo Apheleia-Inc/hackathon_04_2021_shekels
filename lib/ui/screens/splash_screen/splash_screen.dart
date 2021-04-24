@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon_04_2021_shekels/global/app_router.dart';
+import 'package:hackathon_04_2021_shekels/utils/navigation_utils.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({
@@ -10,6 +12,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(milliseconds: 3000), () {
+      NavigationUtils.navigateTo(AppRouter.home);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

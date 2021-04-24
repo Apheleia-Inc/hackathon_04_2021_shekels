@@ -113,8 +113,8 @@ class _AppDrawerState extends State<AppDrawer> {
                 gradient: RadialGradient(
                   center: Alignment(-0.8, 0),
                   colors: [
-                    Theme.of(context).primaryColorLight,
                     Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColorDark,
                   ],
                   radius: 1,
                 ),

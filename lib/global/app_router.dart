@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon_04_2021_shekels/ui/screens/home_screen/home_screen.dart';
 import 'package:hackathon_04_2021_shekels/ui/screens/splash_screen/splash_screen.dart';
 import 'package:hackathon_04_2021_shekels/ui/screens/test_screen/test_screen.dart';
 
@@ -20,6 +21,10 @@ class AppRouter {
   static Map<String, _AppRouteProps> routerBuildMap = {
     splash: _AppRouteProps(
       routeBuilder: (settings) => SplashScreen(),
+      argumentsType: Null,
+    ),
+    home: _AppRouteProps(
+      routeBuilder: (settings) => HomeScreen(),
       argumentsType: Null,
     ),
     test: _AppRouteProps(
