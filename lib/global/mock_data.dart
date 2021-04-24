@@ -194,7 +194,7 @@ class MockData {
         id: Uuid().v4(),
         name: "Refined Metal Tuna",
         category: "Sleek",
-        description: "1 Cashback",
+        description: "1% Cashback",
         store: StoreDto(
           name: "Starbucks",
           imageUrl:
@@ -209,7 +209,7 @@ class MockData {
         id: Uuid().v4(),
         name: "Refined Soft Tuna",
         category: "Handmade",
-        description: "80 Cashback",
+        description: "80% Cashback",
         store: StoreDto(
           name: "Google Play",
           imageUrl:
@@ -224,7 +224,7 @@ class MockData {
         id: Uuid().v4(),
         name: "Unbranded Wooden Keyboard",
         category: "Handcrafted",
-        description: "\$ Cashback",
+        description: "\$5 Cashback",
         store: StoreDto(
           name: "Amazon",
           imageUrl:
@@ -299,7 +299,7 @@ class MockData {
         id: Uuid().v4(),
         name: "Gorgeous Wooden Shirt",
         category: "Generic",
-        description: "37 Cashback",
+        description: "37% Cashback",
         store: StoreDto(
           name: "Starbucks",
           imageUrl:
